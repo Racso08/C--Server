@@ -18,13 +18,13 @@ class Server: public QTcpServer
     Q_OBJECT
     public:
 
-              Server(QObject * parent = 0 , quint16 port = 1723);
+              Server(QObject * parent = 0 , quint16 port = 8888);
 
               virtual  ~Server();
 private slots:
               void startRead();
               void acceptConnection();
-
+              void sendMessage(QString data);
               void disconnected();
 //              void analize_XML(string xml);
             public:

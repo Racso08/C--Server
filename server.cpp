@@ -58,10 +58,38 @@
 //            writer.writeEndElement();
 //            writer.writeEndDocument();
             cout << "Client :\n" << messageRecived << endl;
+            QString str1 = QString("FUNCIONA....");
 //            string str2 =  string1.toStdString();
+
+            /////////////////////////////////////////////////////////////////
+            ///Testeo
+
+            QByteArray data;
+            QFile file("/home/racso/Project#2/Bella.mp3");
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+                qDebug()<<"No se encuentra el archivo" ;
+
+            QTextStream in(&file);
+            while (!in.atEnd()) {
+                QString line = in.readLine();
+                data.append(line.toUtf8().toBase64());
+            }
+
+            file.close();
+
+            qDebug()<<data[0]<<endl;
+
+            QString s_data = QString(data);
+            //QString s_data = data.trimmed();
+            //QString string2 = s_data.toUtf8().constData();
+            sendMessage(s_data);
+
+            ////////////////////////////////////////////////////////////////
+
+
+            //sendMessage(str1);
             QString str = QString::fromUtf8(messageRecived.c_str());
             client->write(("I've have recieved the message:" + str ).toUtf8());
-            client->waitForBytesWritten(3000);
         }
 
     }
@@ -74,3 +102,11 @@
         client->write(QString("Server : I wish you didn't leave ):\n").toUtf8());
         client->waitForBytesWritten(3000);
     }
+
+
+    void Server::sendMessage(QString data){
+
+
+            client->write(QString(data+"\n").toUtf8());
+            client->waitForBytesWritten(1000);
+        }
