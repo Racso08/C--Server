@@ -1,5 +1,8 @@
 #include "server.h"
     #include <iostream>
+    #include <fstream>
+#include <QDebug>
+
     using namespace std;
 
 
@@ -63,23 +66,37 @@
 
             /////////////////////////////////////////////////////////////////
             ///Testeo
+            //char const* filename = "/home/racso/Project#2/SigueloBailando.mp3";
 
-            QByteArray data;
-            QFile file("/home/racso/Project#2/Bella.mp3");
-            if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-                qDebug()<<"No se encuentra el archivo" ;
+            std::ifstream is ("/home/racso/Project#2/SigueloBailando.mp3",std::fstream::binary);
 
-            QTextStream in(&file);
-            while (!in.atEnd()) {
-                QString line = in.readLine();
-                data.append(line.toUtf8().toBase64());
-            }
+            std::ofstream f2 ("/home/racso/Project#2/Stream.txt",std::fstream::trunc|std::fstream::binary);
 
-            file.close();
 
-            qDebug()<<data[0]<<endl;
+             if (is) {
+               is.seekg(-5,ios_base::end); //go to 5 before the end
+               int end = is.tellg(); //grab that index
+               std::cout<<end;
+               is.seekg(22); //go to 22nd position
+               int begin = is.tellg(); //grab that index
+               std::cout<<begin;
 
-            QString s_data = QString(data);
+               // allocate memory:
+               char * buffer = new char [end-begin];
+
+               // read data as a block:
+               is.read (buffer,end-begin); //read everything from the 22nd position to 5 before the end
+
+               is.close();
+
+               // print content:
+               //std::cout.write (buffer,length);
+               f2.write(buffer,end-begin);
+
+               delete[] buffer;
+             }
+
+            QString s_data = QString("Stream.txt");
             //QString s_data = data.trimmed();
             //QString string2 = s_data.toUtf8().constData();
             sendMessage(s_data);
