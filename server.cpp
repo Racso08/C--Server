@@ -71,31 +71,23 @@
             /////////////////////////////////////////////////////////////////
             ///Testeo
 
-
             QString fileName = "/home/racso/Project#2/SigueloBailando.mp3";
             QFile file(fileName);
             if (!file.open(QIODevice::ReadOnly)) return;
             QByteArray array = file.readAll();
-
-            const char* charString = array.data();
-            QString str4(charString);
-            QString str2 = QString::fromStdString(str4.toStdString().substr(200000*counter, 200000));
-            QByteArray chunk;
-            chunk.append(str2);
-
-
-
-            QString information = chunk.toBase64().constData();
-
+            /*
+            int posicion = 0;
+            while(posicion != array.length()){
+                if(line=="Stream"){
+                    QString information = array.mid(posicion,200000).toBase64().constData();
+                    sendMessage(information);
+                    posicion+= posicion + 1;
+                }
+            }
+            */
+            QString information = array.mid(200001,200000).toBase64().constData();
             file.close();
-
-            //qDebug()<<data[0]<<endl;
-
-            //QString s_data = QString(information);
-            //QString s_data = data.trimmed();
-            //QString string2 = s_data.toUtf8().constData();
             sendMessage(information);
-            //qDebug()<<information;
 
             ////////////////////////////////////////////////////////////////
 
