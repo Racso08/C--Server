@@ -1,5 +1,7 @@
 #include "server.h"
 #include "base64.h"
+#include <string>
+#include <iostream>
     #include <iostream>
     using namespace std;
 
@@ -73,14 +75,17 @@
             QString fileName = "/home/racso/Project#2/SigueloBailando.mp3";
             QFile file(fileName);
             if (!file.open(QIODevice::ReadOnly)) return;
-            //QByteArray array = file.read(200000);
-            file.seek(200000*counter);
-            int final = file.bytesToWrite();
-            QByteArray array = file.read(200000);
+            QByteArray array = file.readAll();
+
+            const char* charString = array.data();
+            QString str4(charString);
+            QString str2 = QString::fromStdString(str4.toStdString().substr(200000*counter, 200000));
+            QByteArray chunk;
+            chunk.append(str2);
 
 
 
-            QString information = array.toBase64().constData();
+            QString information = chunk.toBase64().constData();
 
             file.close();
 
