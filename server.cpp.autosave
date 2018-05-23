@@ -76,7 +76,7 @@
             //QByteArray array = file.read(200000);
             file.seek(200000*counter);
             int final = file.bytesToWrite();
-            QByteArray array = file.read(200000);
+            QByteArray array = file.read();
 
 
 
