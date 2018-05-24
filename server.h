@@ -27,7 +27,7 @@ private slots:
               void acceptConnection();
               void sendMessage(QString data);
               void disconnected();
-              void generateMP3(string data);
+              void generateMP3(QString data);
               void songtoBase64();
 //              void analize_XML(string xml);
             public:

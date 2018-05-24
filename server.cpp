@@ -90,7 +90,6 @@
             QString information = array.mid(195500*counter,200000).toBase64().constData();
             file.close();
             sendMessage(information);
-            songtoBase64();
 
             ////////////////////////////////////////////////////////////////
 
@@ -112,19 +111,19 @@
 
 
     void Server::sendMessage(QString data){
-
-
             client->write(QString(data+"\n").toUtf8());
             client->waitForBytesWritten(1000);
+            songtoBase64();
         }
 
-    void Server::generateMP3(string data){
-        QString information = data.data();
-        QByteArray array = QByteArray::fromBase64(information.toUtf8());
-        QFile file("/home/racso/Project#2/BaseCanciones/TEST.mp3");
-        file.open(QIODevice::WriteOnly);
-        file.write(array);
-        file.close();
+    void Server::generateMP3(QString data){
+
+        QString information = data;
+                QByteArray array = QByteArray::fromBase64(information.toLocal8Bit().trimmed());
+                QFile file("/home/racso/Project#2/BaseCanciones/TEST.mp3");
+                file.open(QIODevice::WriteOnly);
+                file.write(array);
+                file.close();
     }
 
     void Server::songtoBase64(){
@@ -134,6 +133,9 @@
         QByteArray array = file.readAll();
         QString information = array.toBase64().constData();
         file.close();
-        string mandar = information.toStdString();
-        generateMP3(mandar);
+        QFile file1("/home/racso/Project#2/BaseCanciones/Muestra.txt");
+        file1.open(QIODevice::WriteOnly);
+        file1.write(array);
+        file1.close();
+        generateMP3(information);
     }
