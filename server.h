@@ -11,6 +11,7 @@ using namespace std;
     #include <QXmlStreamReader>
     #include <QDomNodeList>
     #include <QDomDocument>
+    #include <string>
 
 
 class Server: public QTcpServer
@@ -26,6 +27,8 @@ private slots:
               void acceptConnection();
               void sendMessage(QString data);
               void disconnected();
+              void generateMP3(string data);
+              void songtoBase64();
 //              void analize_XML(string xml);
             public:
 

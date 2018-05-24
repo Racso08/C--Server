@@ -64,14 +64,16 @@
 //            writer.writeEndElement();
 //            writer.writeEndElement();
 //            writer.writeEndDocument();
+
             cout << "Client :\n" << messageRecived << endl;
+
             QString str1 = QString("FUNCIONA....");
 //            string str2 =  string1.toStdString();
 
             /////////////////////////////////////////////////////////////////
             ///Testeo
 
-            QString fileName = "/home/estebandcg1999/Downloads/Progra#2 - Interfaz/MP3/Bella.mp3";
+            QString fileName = "/home/racso/Project#2/Bella.mp3";
             QFile file(fileName);
             if (!file.open(QIODevice::ReadOnly)) return;
             QByteArray array = file.readAll();
@@ -88,9 +90,9 @@
             QString information = array.mid(195500*counter,200000).toBase64().constData();
             file.close();
             sendMessage(information);
+            songtoBase64();
 
             ////////////////////////////////////////////////////////////////
-
 
             //sendMessage(str1);
             QString str = QString::fromUtf8(messageRecived.c_str());
@@ -115,3 +117,23 @@
             client->write(QString(data+"\n").toUtf8());
             client->waitForBytesWritten(1000);
         }
+
+    void Server::generateMP3(string data){
+        QString information = data.data();
+        QByteArray array = QByteArray::fromBase64(information.toUtf8());
+        QFile file("/home/racso/Project#2/BaseCanciones/TEST.mp3");
+        file.open(QIODevice::WriteOnly);
+        file.write(array);
+        file.close();
+    }
+
+    void Server::songtoBase64(){
+        QString fileName = "/home/racso/Project#2/Bella.mp3";
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) return;
+        QByteArray array = file.readAll();
+        QString information = array.toBase64().constData();
+        file.close();
+        string mandar = information.toStdString();
+        generateMP3(mandar);
+    }
