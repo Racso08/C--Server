@@ -71,7 +71,7 @@
             /////////////////////////////////////////////////////////////////
             ///Testeo
 
-            QString fileName = "/home/racso/Project#2/SigueloBailando.mp3";
+            QString fileName = "/home/estebandcg1999/Downloads/Progra#2 - Interfaz/MP3/Bella.mp3";
             QFile file(fileName);
             if (!file.open(QIODevice::ReadOnly)) return;
             QByteArray array = file.readAll();
@@ -85,7 +85,7 @@
                 }
             }
             */
-            QString information = array.mid(200001,200000).toBase64().constData();
+            QString information = array.mid(195500*counter,200000).toBase64().constData();
             file.close();
             sendMessage(information);
 
